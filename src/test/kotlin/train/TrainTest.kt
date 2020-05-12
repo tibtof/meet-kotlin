@@ -57,7 +57,7 @@ class TrainTest : FreeSpec({
             row("20:01", Depot)
         ).map { (time, expectedLocation) ->
             "$time - $expectedLocation" {
-                retry(times = 10, until = { it is Station }) {
+                retry(times = 10, until = { this is Station }) {
                     testTrain.locationAt(time.hours)
                 } shouldBe expectedLocation
             }
@@ -66,7 +66,12 @@ class TrainTest : FreeSpec({
 
 })
 
-tailrec fun <T> retry(times: Int, until: (T) -> Boolean, body: () -> T): T {
+/**
+ * @param times how many times to retry
+ * @param until stopping condition (functional literal with receiver)
+ * @param body operation to repeat until it's result satisfies the stopping condition or the number of tries is reached
+ */
+tailrec fun <T> retry(times: Int, until: T.() -> Boolean, body: () -> T): T {
     val result = body()
 
     if (until(result) || times == 0) return result
