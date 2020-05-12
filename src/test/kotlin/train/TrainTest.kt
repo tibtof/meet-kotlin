@@ -6,7 +6,7 @@ import io.kotest.data.row
 import io.kotest.matchers.shouldBe
 
 class TrainTest : FreeSpec({
-    val testTrain = Train(GenericTrain,
+    val testTrain = Train(TransEuropean(1),
         listOf("10:00".hours to Station("Bucharest"),
             "20:00".hours to Station("Amsterdam")))
 
@@ -16,7 +16,7 @@ class TrainTest : FreeSpec({
             row("one station", listOf("10:00".hours to Station("Bucharest")))
         ).map { (description, schedule) ->
             description {
-                shouldThrow<IllegalArgumentException> { Train(GenericTrain, schedule) }
+                shouldThrow<IllegalArgumentException> { Train(Regional(10), schedule) }
             }
         }
     }
@@ -34,6 +34,20 @@ class TrainTest : FreeSpec({
         }
     }
 
+    "price supplement should be" - {
+        listOf(row(Percent(0), Regional(1)),
+            row(Percent(30), Intercity(1)),
+            row(Percent(50), TransEuropean(1, false))
+        ).map { (percent, kind) ->
+            "$percent for type ${kind::class}" {
+                val train = Train(kind, listOf("10:00".hours to Station("Bucharest"), "12:00".hours to Station("Constanta")))
+                val planner = JourneyPlanner(setOf(train))
+
+                train.priceSupplement() shouldBe percent
+            }
+        }
+    }
+
     "locationAt should return the train's location at the given time" - {
         listOf(
             row("09:00", Depot),
@@ -43,7 +57,7 @@ class TrainTest : FreeSpec({
             row("20:01", Depot)
         ).map { (time, expectedLocation) ->
             "$time - $expectedLocation" {
-                retry(5 times pause(100.millis), until = { it is Station }) {
+                retry(times = 10, until = { it is Station }) {
                     testTrain.locationAt(time.hours)
                 } shouldBe expectedLocation
             }
@@ -51,3 +65,11 @@ class TrainTest : FreeSpec({
     }
 
 })
+
+tailrec fun <T> retry(times: Int, until: (T) -> Boolean, body: () -> T): T {
+    val result = body()
+
+    if (until(result) || times == 0) return result
+
+    return retry(times - 1, until, body)
+}

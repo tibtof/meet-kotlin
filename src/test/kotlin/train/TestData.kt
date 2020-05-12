@@ -27,7 +27,7 @@ val ice726FrankfurtTime = Time(11, 10)
 val ice726CologneTime = Time(13, 2)
 
 val ice724 = Train(
-    InterCityExpress(724, false),
+    TransEuropean(724, false),
     listOf(
         ice724MunichTime to munich,
         ice724NurembergTime to nuremberg,
@@ -37,7 +37,7 @@ val ice724 = Train(
 )
 
 val ice726 = Train(
-    InterCityExpress(726, true),
+    TransEuropean(726, true),
     listOf(
         ice726MunichTime to munich,
         ice726NurembergTime to nuremberg,

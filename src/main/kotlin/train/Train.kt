@@ -17,6 +17,11 @@ data class Train(val kind: TrainInfo, val schedule: List<Pair<Time, Station>>) {
         else -> schedule.find { it.first.randomDelay() == time }?.second ?: EnRoute
     }
 
+    fun priceSupplement(): Percent = when (kind) {
+        is TransEuropean -> Percent(50)
+        is Intercity -> Percent(30)
+        is Regional -> Percent(0)
+    }
 }
 
 fun Time.randomDelay(): Time = this.copy(minutes = minutes + ThreadLocalRandom.current().nextInt(2))

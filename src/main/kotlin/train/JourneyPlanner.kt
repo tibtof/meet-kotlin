@@ -5,13 +5,6 @@ inline class Percent(val value: Int)
 class JourneyPlanner(private val trains: Set<Train>) {
     val stations: Set<Station> = trains.flatMap(Train::stations).toSet()
 
-    fun priceSupplement(train: Train): Percent = when (train.kind) { //show smart cast train.kind
-        is InterCityExpress -> Percent(50)
-        is Express -> Percent(30)
-        is Regional -> Percent(20)
-        GenericTrain -> Percent(0)
-    }
-
     fun trainsAt(station: Station): Set<Train> = trains.filter { it.stations.contains(station) }.toSet()
 
     fun stopsAt(station: Station): Set<Pair<Time, Train>> =
