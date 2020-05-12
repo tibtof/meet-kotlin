@@ -11,20 +11,23 @@ data class Train(val kind: TrainInfo, val schedule: List<Pair<Time, Station>>) {
 
     fun timeAt(station: Station): Time? = schedule.find { (_, s) -> s == station }?.first
 
-    fun locationAt(time: Time): Location = when {
-        time < schedule.first().first -> Depot
-        time > schedule.last().first -> Depot
-        else -> schedule.find { it.first.randomDelay() == time }?.second ?: EnRoute
-    }
-
     fun priceSupplement(): Percent = when (kind) {
         is TransEuropean -> Percent(50)
         is Intercity -> Percent(30)
         is Regional -> Percent(0)
     }
-}
 
-fun Time.randomDelay(): Time = this.copy(minutes = minutes + ThreadLocalRandom.current().nextInt(2))
+    fun locationAt(time: Time): Location {
+        fun Time.randomDelay(): Time = this.copy(minutes = minutes + ThreadLocalRandom.current().nextInt(2))
+
+        return when {
+            time < schedule.first().first -> Depot
+            time > schedule.last().first -> Depot
+            else -> schedule.find { it.first.randomDelay() == time }?.second ?: EnRoute
+        }
+    }
+
+}
 
 sealed class Location
 data class Station(val name: String) : Location()
