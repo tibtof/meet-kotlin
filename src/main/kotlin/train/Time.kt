@@ -1,8 +1,5 @@
 package train
 
-val String.hours: Time
-    get() = Time.valueOf(this)
-
 data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
     init {
         require(hours in 0..23) { "hours must be within 0 and 23" }
@@ -44,3 +41,6 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
         "$hours:${minutes.toString().padStart(2, '0')}"
 
 }
+
+val String.hours: Time
+    get() = Time.valueOf(this)
