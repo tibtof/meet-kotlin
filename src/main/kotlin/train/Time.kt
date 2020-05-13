@@ -37,8 +37,7 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
 
     override fun compareTo(other: Time): Int = asMinutes - other.asMinutes
 
-    override fun toString(): String =
-        "$hours:${minutes.toString().padStart(2, '0')}"
+    override fun toString(): String = "$hours:${minutes.toString().padStart(2, '0')}"
 
 }
 
