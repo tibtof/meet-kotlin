@@ -43,7 +43,7 @@ class TimeTest : FreeSpec({
             Time(10, 30).toString() shouldBe "10:30"
         }
         "prefix single digits with 0" {
-            Time(1, 7).toString() shouldBe "01:07"
+            Time(1, 7).toString() shouldBe "1:07"
         }
     }
 
@@ -65,7 +65,12 @@ class TimeTest : FreeSpec({
 
     "convert String to Time" - {
         "should succeed for valid time" {
-            Time.valueOf("23:59") shouldBe Time(23, 59)
+            listOf(
+                row("23:59", Time(23, 59)),
+                row("1:05", Time(1, 5))
+            ).map { (textTime, expectedTime) ->
+                Time.valueOf(textTime) shouldBe expectedTime
+            }
         }
         "should fail for wrong format" {
             shouldThrow<IllegalArgumentException> { Time.valueOf("00:000") }
