@@ -1,4 +1,4 @@
-### Top 10 most loved kotlin features (by some sources)
+### Top loved kotlin features (by some sources)
 - Null Safety
 - Data Classes
 - Extension Functions
