@@ -43,7 +43,42 @@ class TimeTest : FreeSpec({
             Time(10, 30).toString() shouldBe "10:30"
         }
         "prefix single digits with 0" {
-            Time(1, 7).toString() shouldBe "01:07"
+            Time(1, 7).toString() shouldBe "1:07"
         }
     }
+
+    "minus should subtract two time instances" {
+        Time(2, 30) - Time(0, 45) shouldBe 105
+    }
+
+    "time instances should be comparable" - {
+        "gt" {
+            Time(5, 0) should beGreaterThan(Time(4, 59))
+        }
+        "eq" {
+            Time(12, 34).compareTo(Time(12, 34)) shouldBe 0
+        }
+        "lt" {
+            Time(12, 55) should beGreaterThan(Time(12, 22))
+        }
+    }
+
+    "convert String to Time" - {
+        "should succeed for valid time" {
+            listOf(
+                row("23:59", Time(23, 59)),
+                row("1:05", Time(1, 5)),
+                row("05:05", Time(5, 5))
+            ).map { (textTime, expectedTime) ->
+                Time.valueOf(textTime) shouldBe expectedTime
+            }
+        }
+        "should fail for wrong format" {
+            shouldThrow<IllegalArgumentException> { Time.valueOf("00:000") }
+        }
+        "should have a string extension property" {
+            "22:20".hours shouldBe Time(22, 20)
+        }
+    }
+
 })

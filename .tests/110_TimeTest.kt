@@ -34,32 +34,4 @@ class TimeTest : FreeSpec({
         }
     }
 
-    "asMinutes should convert to minutes" {
-        Time(5, 15).asMinutes shouldBe 60 * 5 + 15
-    }
-
-    "toString should" - {
-        "return friendly text" {
-            Time(10, 30).toString() shouldBe "10:30"
-        }
-        "prefix single digits with 0" {
-            Time(1, 7).toString() shouldBe "01:07"
-        }
-    }
-
-    "minus should subtract two time instances" {
-        Time(2, 30) - Time(0, 45) shouldBe 105
-    }
-
-    "time instances should be comparable" - {
-        "gt" {
-            Time(5, 0) should beGreaterThan(Time(4, 59))
-        }
-        "eq" {
-            Time(12, 34).compareTo(Time(12, 34)) shouldBe 0
-        }
-        "lt" {
-            Time(12, 55) should beGreaterThan(Time(12, 22))
-        }
-    }
 })

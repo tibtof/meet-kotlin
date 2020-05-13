@@ -4,9 +4,6 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.time.Duration
 
 class TrainTest : FreeSpec({
     val testTrain = Train(TransEuropean(1),
@@ -19,7 +16,7 @@ class TrainTest : FreeSpec({
             row("one station", listOf("10:00".hours to Station("Bucharest")))
         ).map { (description, schedule) ->
             description {
-                shouldThrow<IllegalArgumentException> { Train(GenericTrain, schedule) }
+                shouldThrow<IllegalArgumentException> { Train(Regional(10), schedule) }
             }
         }
     }

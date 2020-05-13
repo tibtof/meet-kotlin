@@ -14,6 +14,8 @@ class JourneyPlannerTest : FreeSpec({
         JourneyPlanner(setOf(ice724, ice726)).stations shouldBe setOf(munich, nuremberg, frankfurt, cologne, essen)
     }
 
-
+    "trainsAt should return all trains that stop in that station" {
+        JourneyPlanner(setOf(ice724, ice726)).trainsAt(munich) shouldBe setOf(ice724, ice726)
+    }
 
 })

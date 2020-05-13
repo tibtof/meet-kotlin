@@ -4,12 +4,9 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.data.row
 import io.kotest.matchers.shouldBe
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import java.time.Duration
 
 class TrainTest : FreeSpec({
-    val testTrain = Train(GenericTrain,
+    val testTrain = Train(TransEuropean(1),
         listOf("10:00".hours to Station("Bucharest"),
             "20:00".hours to Station("Amsterdam")))
 
@@ -19,7 +16,7 @@ class TrainTest : FreeSpec({
             row("one station", listOf("10:00".hours to Station("Bucharest")))
         ).map { (description, schedule) ->
             description {
-                shouldThrow<IllegalArgumentException> { Train(GenericTrain, schedule) }
+                shouldThrow<IllegalArgumentException> { Train(Regional(10), schedule) }
             }
         }
     }
@@ -47,20 +44,6 @@ class TrainTest : FreeSpec({
                 val planner = JourneyPlanner(setOf(train))
 
                 train.priceSupplement() shouldBe percent
-            }
-        }
-    }
-
-    "locationAt should return the train's location at the given time" - {
-        listOf(
-            row("09:00", Depot),
-            row("10:00", Station("Bucharest")),
-            row("11:00", EnRoute),
-            row("20:00", Station("Amsterdam")),
-            row("20:01", Depot)
-        ).map { (time, expectedLocation) ->
-            "$time - $expectedLocation" {
-                testTrain.locationAt(time.hours) shouldBe expectedLocation
             }
         }
     }

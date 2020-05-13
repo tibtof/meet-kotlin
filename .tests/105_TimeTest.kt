@@ -22,15 +22,4 @@ class TimeTest : FreeSpec({
         }
     }
 
-    "time constructor should not accept " - {
-        listOf(row("negative hour", -1, 0),
-            row("too many hours", 25, 0),
-            row("negative minutes", 0, -1),
-            row("too many minutes", 0, 60)
-        ).map { (description, hours, minutes) ->
-            description {
-                shouldThrow<IllegalArgumentException> { Time(hours, minutes) }
-            }
-        }
-    }
 })

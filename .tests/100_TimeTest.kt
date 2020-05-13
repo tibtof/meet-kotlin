@@ -14,4 +14,5 @@ class TimeTest : FreeSpec({
             minutes shouldBe 59
         }
     }
+
 })
