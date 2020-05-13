@@ -1,11 +1,9 @@
 #!/usr/bin/env kscript
 
 import java.io.File
-import java.nio.file.Files
-import java.nio.file.Path
 
 val nextTest = File(".tests").listFiles().sorted().first()
-val destinationPath = "src/test/kotlin/train"
-val destinationTest = nextTest.name.removeRange(0..nextTest.name.indexOf('_'))
-println("Moving ${nextTest.name} to $destinationPath/$destinationTest")
-nextTest.renameTo(File("$destinationPath/$destinationTest"))
+val origName = nextTest.name
+val destName = origName.removeRange(0..origName.indexOf('_'))
+println("Moving ${nextTest.name}...")
+nextTest.renameTo(File("src/test/kotlin/train/$destName"))
