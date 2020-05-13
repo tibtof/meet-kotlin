@@ -67,7 +67,8 @@ class TimeTest : FreeSpec({
         "should succeed for valid time" {
             listOf(
                 row("23:59", Time(23, 59)),
-                row("1:05", Time(1, 5))
+                row("1:05", Time(1, 5)),
+                row("05:05", Time(5, 5))
             ).map { (textTime, expectedTime) ->
                 Time.valueOf(textTime) shouldBe expectedTime
             }
