@@ -21,7 +21,7 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
     }
 
     /**
-     * If you need a function or a property to be tied to a class rather than to instances of it,
+     * If yoneed a function or a property to be tied to a class rather than to instances of it,
      *   you can declare it inside a *companion object*
      * The *companion object* is a singleton, and its members can be accessed directly via the name of the containing class
      */
@@ -29,11 +29,9 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
         /**
          * For Java interoperability, to have a true static method, we can use @JvmStatic
          */
-        fun valueOf(s: String): Time {
-            require(s.matches("""\d{1,2}:\d{2}""".toRegex())) { "text time should be of form 10:05 or 0:00" }
-            val (minutes, hours) = s.split(":")
-                .map { if (it.length == 2) it.removePrefix("0") else it }
-                .map { it.toInt() }
+        fun valueOf(timeText: String): Time {
+            require(timeText.matches("""\d{1,2}:\d{2}""".toRegex())) { "text time should be of form 10:05 or 0:00" }
+            val (minutes, hours) = timeText.split(':').map { it.toInt() }
             return Time(minutes, hours)
         }
     }
@@ -62,7 +60,7 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
      * Override interface function
      * override keyword is required, this was the compile will fail if the interface definition becomes outdated
      */
-    override fun compareTo(other: Time): Int = asMinutes - other.asMinutes
+    override fun compareTo(other: Time): Int = this - other
 
     /**
      * String interpolation
