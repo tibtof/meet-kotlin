@@ -41,7 +41,6 @@ class TrainTest : FreeSpec({
         ).map { (percent, kind) ->
             "$percent for type ${kind::class}" {
                 val train = Train(kind, listOf("10:00".hours to Station("Bucharest"), "12:00".hours to Station("Constanta")))
-                val planner = JourneyPlanner(setOf(train))
 
                 train.priceSupplement() shouldBe percent
             }
