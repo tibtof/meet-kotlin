@@ -7,7 +7,7 @@ import io.kotest.matchers.shouldBe
 
 class TrainTest : FreeSpec({
     val testTrain = Train(TransEuropean(1),
-        listOf("10:00".hours to Station("Bucharest"),
-            "20:00".hours to Station("Amsterdam")))
+        listOf("20:00".hours to Station("Amsterdam"),
+            "10:00".hours to Station("Bucharest")))
 
 })

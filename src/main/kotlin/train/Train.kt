@@ -2,19 +2,21 @@ package train
 
 import java.util.concurrent.ThreadLocalRandom
 
-//for readability we may add a type alias for Pair<Time, Station>:
-//typealias Stop = Pair<Time, Station>
+typealias Stop = Pair<Time, Station>
 
-data class Train(val kind: TrainInfo, val schedule: List<Pair<Time, Station>>) {
+class Train(val kind: TrainInfo, schedule: List<Stop>) {
+    val schedule: List<Stop>
+
     init {
         require(schedule.size >= 2) { "schedule must contain at least two elements" }
+        this.schedule = schedule.sortedBy { (time, _) -> time }
     }
 
     /**
      * Computed val
      * Lazy computation when the property is first accessed
      */
-    val stations: List<Station> by lazy { schedule.map { it.second } }
+    val stations: List<Station> by lazy { this.schedule.map { it.second } }
 
     /**
      * Nullable return type - null safe navigation

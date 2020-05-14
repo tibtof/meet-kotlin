@@ -1,6 +1,11 @@
 package train
 
 /**
+ * Classes and methods are final by default, to make them inheritable we have to use open modifier
+ *
+ * Extension example: class Hour(hours: Int) : Time(hours, 0)
+ * singleton: object Ten: Time(10, 0)
+ *
  * : is used to extend classes or implement interfaces
  * the compiler figures out if we try to extend multiple classes
  *
@@ -8,7 +13,6 @@ package train
  *
  * Any is the supertype of all types
  *
- * Classes and methods are final by default, to make them inheritable we have to use open modifier
  */
 data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
     init {
@@ -72,6 +76,9 @@ data class Time(val hours: Int, val minutes: Int = 0) : Comparable<Time> {
  * Extension function
  * It will be compiled as a static method with the string as the first argument
  * To use it, the package where it is declare has to be imported
+ *
+ * The compiler generates a class having the name of the file
+ * were it adds the top level functions/properties as static methods
  */
 val String.hours: Time
     get() = Time.valueOf(this)
